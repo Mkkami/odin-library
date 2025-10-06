@@ -42,6 +42,11 @@ addBtn.addEventListener('click', () => {
 //     handleSubmit();
 // })
 
+cancelBtn.addEventListener('click', () => {
+    form.reset();
+    dialog.close();
+})
+
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     handleSubmit();
