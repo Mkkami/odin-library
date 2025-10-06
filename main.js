@@ -32,8 +32,19 @@ addBtn.addEventListener('click', () => {
 })
 
 
-confirmBtn.addEventListener('click', (e) => {
-    handleSubmit(e);
+// confirmBtn.addEventListener('click', (e) => {
+//     e.preventDefault();
+
+//     if (!form.checkValidity()) {
+//         form.reportValidity();
+//         return;
+//     }
+//     handleSubmit();
+// })
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    handleSubmit();
 })
 
 function addBookToLibrary(title, author, pages, isRead) {
@@ -45,7 +56,7 @@ function addBookToLibrary(title, author, pages, isRead) {
 }
 
 function handleSubmit(e) {
-    e.preventDefault();
+    
     let formdata = new FormData(form);
     addBookToLibrary(
         formdata.get('title'),
