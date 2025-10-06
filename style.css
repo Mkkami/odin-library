@@ -1,0 +1,67 @@
+
+
+* {
+    box-sizing: border-box;
+}
+
+::backdrop {
+    backdrop-filter: blur(2px);
+}
+
+body {
+    margin: 0;
+    text-align: center;
+}
+
+h1 {
+    font-size: 4rem;
+    padding-bottom: 1em;
+    /* border-bottom: 2px solid gray; */
+    margin: 0;
+    box-shadow: 0px 5px 5px gray;
+}
+
+button {
+    cursor: pointer;
+}
+
+.addBtn {
+    font-size: 2rem;
+    background-color: transparent;
+    border: none;
+    margin: 1em;
+
+}
+
+.addBtn:hover {
+    background-color: lightgray;
+    border-radius: 8px;
+}
+
+.content {
+    margin: auto;
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    justify-content: center;
+    gap: 1em;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+.card .readStatus {
+    display: flex;
+    align-items: center;
+}
+
+.card img {
+    width: 20px;
+    height: 20px;
+}

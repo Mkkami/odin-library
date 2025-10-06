@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+</head>
+<body>
+    <header class="title">
+        <h1>Library</h1>
+    </header>
+    </div>
+    <div class="controls">
+        <button class="addBtn">Add new</button>
+    </div>
+    <div class="content">
+
+    </div>
+    <dialog id="newBookDialog" closedby="closerequest">
+        <form method="dialog">
+            <p>
+                <label for="title">Title</label>
+                <input required name="title" type="text" autofocus placeholder="Title">
+            </p>
+            <p>
+                <label for="author">Author</label>
+                <input required name="author" type="text" placeholder="Author">
+            </p>
+            <p>
+                <label for="pages">Pages</label>
+                <input required name="pages" type="number" min="1">
+            </p>
+            <p>
+                <label for="isRead">Already read</label>
+                <input name="isRead" type="checkbox">
+            </p>
+            <button type="submit" formmethod="dialog" id="confirmBtn">Confirm</button>
+            <button type='submit' id="cancelBtn" value="cancel" formnovalidate>Cancel</button>
+        </form>
+    </dialog>
+</body>
+</html>
