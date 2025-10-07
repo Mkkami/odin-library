@@ -22,7 +22,6 @@ Book.prototype.readToggle = function() {
 
 let aiw = new Book('Alice in Wonderland', 'Lewis Carroll',352);
 aiw.readToggle();
-console.log(aiw);
 myLibrary.push(aiw);
 createBookCard(aiw);
 
@@ -30,17 +29,6 @@ createBookCard(aiw);
 addBtn.addEventListener('click', () => {
     dialog.showModal();
 })
-
-
-// confirmBtn.addEventListener('click', (e) => {
-//     e.preventDefault();
-
-//     if (!form.checkValidity()) {
-//         form.reportValidity();
-//         return;
-//     }
-//     handleSubmit();
-// })
 
 cancelBtn.addEventListener('click', () => {
     form.reset();
@@ -61,7 +49,6 @@ function addBookToLibrary(title, author, pages, isRead) {
 }
 
 function handleSubmit(e) {
-    
     let formdata = new FormData(form);
     addBookToLibrary(
         formdata.get('title'),
@@ -73,8 +60,6 @@ function handleSubmit(e) {
 
     form.reset();
     dialog.close();
-
-    console.log(myLibrary);
 }
 
 function createElem(type, text) {
@@ -90,17 +75,22 @@ function createBookCard(book) {
     const author = createElem('p', `Author: ${book.author}`)
     const pages = createElem('p', `Pages: ${book.pages}`)
     const read = createElem('p', 'Read: ');
-
     const img = document.createElement('img');
+
     img.src = book.read ? 'img/checkbox-outline.svg' : 'img/close-box-outline.svg';
+    img.setAttribute('read', book.read ? 'true' : 'false');
+    img.addEventListener('click', () => {
+        book.readToggle();
+        if (book.read) {
+            img.src = 'img/checkbox-outline.svg';
+            img.setAttribute('read', 'true');
+        } else {
+            img.src = 'img/close-box-outline.svg';
+            img.setAttribute('read', 'false');
+        }
+    })
     read.classList.add('readStatus');
     read.appendChild(img);
-
-    const readBtn = createElem('button', 'Read')
-    readBtn.addEventListener('click', () => {
-        book.readToggle();
-        img.src = book.read ? 'img/checkbox-outline.svg' : 'img/close-box-outline.svg';
-    })
 
     const removeBtn = createElem('button', 'Remove')
     removeBtn.addEventListener('click', (e) => {
@@ -112,6 +102,7 @@ function createBookCard(book) {
             }
         }
     })
-    card.append(title, author, pages, read, readBtn, removeBtn);
+
+    card.append(title, author, pages, read, removeBtn);
     content.appendChild(card);
 }
