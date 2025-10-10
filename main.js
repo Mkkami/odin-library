@@ -1,3 +1,7 @@
+import {Book, Library} from './library.js'
+
+let library = new Library;
+
 const addBtn = document.querySelector('.addBtn');
 const dialog = document.querySelector('dialog');
 const confirmBtn = document.querySelector('#confirmBtn');
@@ -5,26 +9,13 @@ const cancelBtn = document.querySelector('#cancelBtn');
 const form = document.querySelector('form');
 const content = document.querySelector('.content');
 
-const myLibrary = [];
 
-function Book(title, author, pages) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = false;
-
-    this.id = crypto.randomUUID();
+function init() {
+    let book = new Book('Alice in Wonderland', 'Lewis Carroll', 352, true);
+    library.addBook(book);
+    createBookCard(book);
 }
-
-Book.prototype.readToggle = function() {
-    this.read = !this.read;
-}
-
-let aiw = new Book('Alice in Wonderland', 'Lewis Carroll',352);
-aiw.readToggle();
-myLibrary.push(aiw);
-createBookCard(aiw);
-
+init();
 
 addBtn.addEventListener('click', () => {
     dialog.showModal();
@@ -40,23 +31,21 @@ form.addEventListener('submit', (e) => {
     handleSubmit();
 })
 
-function addBookToLibrary(title, author, pages, isRead) {
-    let newBook = new Book(title, author, pages);
-    if (isRead) {
-        newBook.readToggle();
-    }
-    myLibrary.push(newBook);
-}
-
-function handleSubmit(e) {
-    let formdata = new FormData(form);
-    addBookToLibrary(
+function extractFormData(formdata) {
+    return [
         formdata.get('title'),
         formdata.get('author'),
         formdata.get('pages'),
         formdata.get('isRead')
-    );
-    createBookCard(myLibrary.at(-1));
+    ];
+}
+
+function handleSubmit(e) {
+    let formdata = new FormData(form);
+    
+    let book = new Book(...extractFormData(formdata));
+    library.addBook(book);
+    createBookCard(book);
 
     form.reset();
     dialog.close();
@@ -75,17 +64,15 @@ function createBookCard(book) {
     const author = createElem('p', `Author: ${book.author}`)
     const pages = createElem('p', `Pages: ${book.pages}`)
     const read = createElem('p', 'Read: ');
-    const img = document.createElement('img');
+    const img = document.createElement('p');
+    img.classList.add('image');
 
-    img.src = book.read ? 'img/checkbox-outline.svg' : 'img/close-box-outline.svg';
     img.setAttribute('read', book.read ? 'true' : 'false');
     img.addEventListener('click', () => {
         book.readToggle();
         if (book.read) {
-            img.src = 'img/checkbox-outline.svg';
             img.setAttribute('read', 'true');
         } else {
-            img.src = 'img/close-box-outline.svg';
             img.setAttribute('read', 'false');
         }
     })
@@ -95,12 +82,7 @@ function createBookCard(book) {
     const removeBtn = createElem('button', 'Remove')
     removeBtn.addEventListener('click', (e) => {
         card.remove();
-        for (let i = 0; i < myLibrary.length; i++) {
-            if (myLibrary[i].id === book.id) {
-                myLibrary.splice(i, 1);
-                break;
-            }
-        }
+        library.removeBook(book.id);
     })
 
     card.append(title, author, pages, read, removeBtn);
