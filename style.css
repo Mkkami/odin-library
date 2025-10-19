@@ -114,3 +114,12 @@ dialog button {
     font-size: 1.2rem;
     padding: 0.5em 1em; 
 }
+
+.error-message {
+    display: none;
+}
+
+.error-message.visible {
+    color: red;
+    display: block;
+}

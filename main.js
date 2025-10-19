@@ -9,6 +9,48 @@ const cancelBtn = document.querySelector('#cancelBtn');
 const form = document.querySelector('form');
 const content = document.querySelector('.content');
 
+const titleInput = document.querySelector('input[name="title"]');
+const authorInput = document.querySelector('input[name="author"]');
+const pageInput = document.querySelector("input[name='pages']")
+
+
+function validateTitle(value) {
+    if (!value.trim()) return "Title must not be empty";
+    return "";
+}
+
+function validateAuthor(value) {
+    if (!value.trim()) return "Don't forget about the author";
+    return "";
+}
+
+function validatePages(value) {
+    const val = value.trim();
+    if (!val) return "How many pages does this book have?";
+    if (isNaN(val)) return "I need a number";
+    return "";
+}
+
+function addValidator(inputElement, validator) {
+    const errorMessage = inputElement.parentNode.querySelector(".error-message");
+
+    const val = function runValidation() {
+        const errorText = validator(inputElement.value);
+        errorMessage.textContent = errorText;
+        errorMessage.classList.toggle("visible", !!errorText);
+    }
+
+    val();
+
+    inputElement.addEventListener('input', val);
+
+    return val;
+}
+
+const val1 = addValidator(titleInput, validateTitle);
+const val2 = addValidator(authorInput, validateAuthor);
+const val3 = addValidator(pageInput, validatePages);
+
 
 function init() {
     let book = new Book('Alice in Wonderland', 'Lewis Carroll', 352, true);
@@ -28,6 +70,18 @@ cancelBtn.addEventListener('click', () => {
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
+    let isValid = true;
+
+    val1();     //somehow it works
+    val2();
+    val3();
+
+    const hasError = form.querySelector(".error-message.visible");
+
+    if (hasError) {
+        return;
+    }
+
     handleSubmit();
 })
 
